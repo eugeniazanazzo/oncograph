@@ -1,0 +1,32 @@
+digraph oncograph{
+node [shape = box,fontname = "Helvetica"];
+"MLL3+USH2A"->"PIK3CA" [label="0.91"];
+"CDH1+MLL3"->"PIK3CA" [label="0.81"];
+"CDH1+ENSG00000245549"->"PIK3CA" [label="0.98"];
+"TTN"->"PIK3CA" [label="0.16"];
+"MLL3"->"PIK3CA" [label="0.94"];
+"ENSG00000245549"->"PIK3CA" [label="0.12"];
+"MUC16+USH2A"->"TP53" [label="0.84"];
+"MLL3+MUC16"->"TP53" [label="0.62"];
+"USH2A"->"TP53" [label="0.66"];
+"MUC16"->"TP53" [label="0.90"];
+"ENSG00000245549"->"GATA3" [label="0.65"];
+"MAP3K1+MUC16"->"TTN" [style=bold,color=blue];
+"MAP3K1"->"TTN" [label="0.63"];
+"TTN"->"MAP3K1" [label="0.64"];
+"PIK3CA+TP53"->"USH2A" [label="0.37"];
+"PIK3CA+TTN"->"ENSG00000245549" [label="0.15"];
+"CDH1+PIK3CA"->"ENSG00000245549" [label="0.30"];
+"GATA3"->"ENSG00000245549" [label="0.51"];
+"ENSG00000245549+MUC16"->"CDH1" [label="0.94"];
+"MUC16"->"CDH1" [label="0.36"];
+"CDH1+GATA3+TP53"->"MUC16" [label="0.52"];
+"CDH1+GATA3+MAP3K1"->"MUC16" [label="0.25"];
+"TP53+TTN"->"MUC16" [label="0.12"];
+"CDH1+TP53"->"MUC16" [label="0.51"];
+"CDH1+PIK3CA"->"MUC16" [label="0.16"];
+"CDH1+MLL3"->"MUC16" [label="0.74"];
+"TP53"->"MUC16" [label="0.40"];
+"CDH1"->"MUC16" [label="0.40"];
+"PIK3CA"->"MLL3" [label="0.50"];
+}
