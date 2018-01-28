@@ -151,10 +151,10 @@ for (int j=1;j<=observations;j++){
   observations=rownotnull;
 int f=floor(observations/2);
 printf("fold(test,[");
-printfold(f);
-//for (int j=1;j<floor(observations/2);j++){
- // printf("%d,",j);
-//}
+//printfold(f);
+for (int j=1;j<floor(observations/2);j++){
+  printf("%d,",j);
+}
 
 printf("%d]).\n",f);
 printf("fold(train,[");
