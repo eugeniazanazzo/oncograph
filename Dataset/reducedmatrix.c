@@ -34,13 +34,6 @@ scanf ("%d %d",&observations,&genes);
 char namegenes[genes+1][20];
 char patients[observations+1][20];
 int mutationoccur[genes+1];
-/*struct mutation{
-char namegene;
-int occmutation;
-};
-
-struct mutation mutationarray[10];
-*/
 printf(":-use_module(library(slipcover)).\n");
 printf(":- if(current_predicate(use_rendering/1)).\n");
 printf(":- use_rendering(c3).\n");
@@ -53,56 +46,11 @@ printf(":- set_sc(verbosity,1).\n");
 printf(":- set_sc(c_seed,%d).\n",(int)time(NULL));
 printf (":- begin_bg.\n");
 printf(":-end_bg.\n");
-//printf("%d]).\n",observations);
-//printf("numero pazienti %d,numero geni %d \n",observations,genes);        //conservo numero osservazioni e geni di cui traccio mutazioni
-//fgets(buf,100,stdin);
+
 char namegene [100];
 for (int i=1;i<=genes;i++){ // vettore che contiene i geni;
     scanf("%s",namegenes[i]);
-    //lower_string(namegenes[i]);
 }
-//for (int i=1;i<=genes-2;i++){
- //for (int j=i+1;j<=genes;j++){ // vettore che contiene i geni;
-   // printf("parent(%s):0.6;parent(%s):0.4 :- occurrence(%s,%s).\n",namegenes[i],namegenes[j],namegenes[i],namegenes[j]);
-//}}
-/*for (int i=1;i<=genes;i++){
-  printf("output('%s' /0).\n",namegenes[i]);
-}
-for (int i=1;i<=genes;i++){
-  printf("input('%s' /0).\n",namegenes[i]);
-}
-for (int i=1;i<=genes;i++){
-printf("modeh(*,'%s').\n",namegenes[i]);
-}
-for (int i=1;i<=genes;i++){
- for (int j=1;j<=genes;j++){
-   if (i!=j){
-    printf("determination('%s' /0, '%s' /0).\n",namegenes[i],namegenes[j]);
-    //printf("'%s':0.5:- '%s'.\n",namegenes[i],namegenes[j]);
-   }
- }}
-for (int i=1;i<=genes;i++){
-printf("modeb(*,'%s').\n",namegenes[i]);
-}
-for (int i=1;i<=genes;i++){
- for (int j=1;j<=genes;j++){
-   if (i!=j){
-    printf("");
-    //printf("determination('%s' /0, '%s' /0).\n",namegenes[i],namegenes[j]);
-    //printf("'%s':0.5:- '%s'.\n",namegenes[i],namegenes[j]);
-   }
- }}*/
- /*printf(":- begin_in.\n");
- for (int i=1;i<=genes;i++){
- for (int j=1;j<=genes;j++){
-   if (i!=j){
-    //printf("determination('%s' /0, '%s' /0).\n",namegenes[i],namegenes[j]);
-    //printf("'%s':0.5:- '%s'.\n",namegenes[i],namegenes[j]);
-   }
- }} 
-  printf(":- end_in.\n");
- //while (!feof(stdin)){ 
-  */
 int listmutation[genes+1][observations+1];
 for (int j=1;j<=observations;j++){
     scanf("%s",patients[j]);
@@ -148,20 +96,20 @@ for (int j=1;j<=observations;j++){
    if(sumrow[i]!=0){
     rownotnull++;
   }}
-  observations=rownotnull;
+observations=rownotnull;
 int f=floor(observations/2);
-printf("fold(test,[");
-//printfold(f);
-for (int j=1;j<floor(observations/2);j++){
+printfold(observations);
+/**for (int j=1;j<floor(observations/2);j++){
   printf("%d,",j);
-}
+} 
 
 printf("%d]).\n",f);
 printf("fold(train,[");
 for (int j=observations/2+1;j<observations;j++){
   printf("%d,",j);
-}
+} 
 printf("%d]).\n",observations);
+*/
 int v;
 for (int p=0;p<10;p++){
     printf("output('%s' /0).\n",namecandidates[p]);
