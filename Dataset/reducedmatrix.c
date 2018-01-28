@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include "randomfold.c"
 
 //FILE *f;
 //#define MAX 100000
@@ -49,6 +50,7 @@ printf(":- sc.\n");
 printf(":- set_sc(depth_bound,true).\n");
 printf(":- set_sc(specialization,mode).\n");
 printf(":- set_sc(verbosity,1).\n");
+printf(":- set_sc(c_seed,%d).\n",(int)time(NULL));
 printf (":- begin_bg.\n");
 printf(":-end_bg.\n");
 //printf("%d]).\n",observations);
@@ -147,12 +149,13 @@ for (int j=1;j<=observations;j++){
     rownotnull++;
   }}
   observations=rownotnull;
-printf("fold(test,[");
-for (int j=1;j<floor(observations/2);j++){
-  printf("%d,",j);
-}
-
 int f=floor(observations/2);
+printf("fold(test,[");
+printfold(f);
+//for (int j=1;j<floor(observations/2);j++){
+ // printf("%d,",j);
+//}
+
 printf("%d]).\n",f);
 printf("fold(train,[");
 for (int j=observations/2+1;j<observations;j++){
