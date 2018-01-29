@@ -98,7 +98,7 @@ for (int j=1;j<=observations;j++){
   }}
 observations=rownotnull;
 int f=floor(observations/2);
-printfold(observations);
+printfold(observations);                                         //troppo costosa
 /**for (int j=1;j<floor(observations/2);j++){
   printf("%d,",j);
 } 
@@ -110,7 +110,6 @@ for (int j=observations/2+1;j<observations;j++){
 } 
 printf("%d]).\n",observations);
 */
-int v;
 for (int p=0;p<10;p++){
     printf("output('%s' /0).\n",namecandidates[p]);
   }
@@ -133,7 +132,7 @@ for (int i=0;i<10;i++){
 printf(":- begin_in.\n");
 printf(":- end_in.\n");
 
-for (int i=1;i<=observations;i++){
+for (int i=1;i<observations;i++){
    printf("begin(model(%d)).\n",survivors);
     for (int j=0;j<10;j++){
       candidate=candidates[j];
@@ -146,7 +145,7 @@ for (int i=1;i<=observations;i++){
    //   }
   printf("end(model(%d)).\n",survivors);
   survivors++;
- }
+ } 
 }
 
 
