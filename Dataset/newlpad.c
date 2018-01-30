@@ -65,7 +65,7 @@ for (int j=0;j<p;j++){
   if(insert>0){
   strcpy(edges[numedges].from,parent[j]);
    strcpy(edges[numedges].to,parent[p]);
-   printf("\"%s\"->\"%s\" [style=invis,style=dotted,arrowhead=none];\n",parent[j],parent[p]);
+   //printf("\"%s\"->\"%s\" [style=invis,style=dotted,arrowhead=none];\n",parent[j],parent[p]);
    numedges++;
   }}}
  if (prob>0.995){

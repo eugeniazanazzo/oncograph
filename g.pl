@@ -1,0 +1,1 @@
+g(x):-induce([train],P).
