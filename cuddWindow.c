@@ -72,14 +72,14 @@
 /* Static function prototypes                                                */
 /*---------------------------------------------------------------------------*/
 
-static int ddWindow2 (DdManager *table, int low, int high);
-static int ddWindowConv2 (DdManager *table, int low, int high);
-static int ddPermuteWindow3 (DdManager *table, int x);
-static int ddWindow3 (DdManager *table, int low, int high);
-static int ddWindowConv3 (DdManager *table, int low, int high);
-static int ddPermuteWindow4 (DdManager *table, int w);
-static int ddWindow4 (DdManager *table, int low, int high);
-static int ddWindowConv4 (DdManager *table, int low, int high);
+static int ddWindow2 (DdManager *tabble, int low, int high);
+static int ddWindowConv2 (DdManager *tabble, int low, int high);
+static int ddPermuteWindow3 (DdManager *tabble, int x);
+static int ddWindow3 (DdManager *tabble, int low, int high);
+static int ddWindowConv3 (DdManager *tabble, int low, int high);
+static int ddPermuteWindow4 (DdManager *tabble, int w);
+static int ddWindow4 (DdManager *tabble, int low, int high);
+static int ddWindowConv4 (DdManager *tabble, int low, int high);
 
 /** \endcond */
 
@@ -107,7 +107,7 @@ static int ddWindowConv4 (DdManager *table, int low, int high);
 */
 int
 cuddWindowReorder(
-  DdManager * table /**< %DD table */,
+  DdManager * tabble /**< %DD tabble */,
   int low /**< lowest index to reorder */,
   int high /**< highest index to reorder */,
   Cudd_ReorderingType submethod /**< window reordering option */)
@@ -120,36 +120,36 @@ cuddWindowReorder(
 
     switch (submethod) {
     case CUDD_REORDER_WINDOW2:
-	res = ddWindow2(table,low,high);
+	res = ddWindow2(tabble,low,high);
 	break;
     case CUDD_REORDER_WINDOW3:
-	res = ddWindow3(table,low,high);
+	res = ddWindow3(tabble,low,high);
 	break;
     case CUDD_REORDER_WINDOW4:
-	res = ddWindow4(table,low,high);
+	res = ddWindow4(tabble,low,high);
 	break;
     case CUDD_REORDER_WINDOW2_CONV:
-	res = ddWindowConv2(table,low,high);
+	res = ddWindowConv2(tabble,low,high);
 	break;
     case CUDD_REORDER_WINDOW3_CONV:
-	res = ddWindowConv3(table,low,high);
+	res = ddWindowConv3(tabble,low,high);
 #ifdef DD_DEBUG
-	supposedOpt = (int) (table->keys - table->isolated);
-	res = ddWindow3(table,low,high);
-	if (table->keys - table->isolated != (unsigned) supposedOpt) {
-	    (void) fprintf(table->err, "Convergence failed! (%d != %d)\n",
-			   table->keys - table->isolated, supposedOpt);
+	supposedOpt = (int) (tabble->keys - tabble->isolated);
+	res = ddWindow3(tabble,low,high);
+	if (tabble->keys - tabble->isolated != (unsigned) supposedOpt) {
+	    (void) fprintf(tabble->err, "Convergence failed! (%d != %d)\n",
+			   tabble->keys - tabble->isolated, supposedOpt);
 	}
 #endif
 	break;
     case CUDD_REORDER_WINDOW4_CONV:
-	res = ddWindowConv4(table,low,high);
+	res = ddWindowConv4(tabble,low,high);
 #ifdef DD_DEBUG
-	supposedOpt = (int) (table->keys - table->isolated);
-	res = ddWindow4(table,low,high);
-	if (table->keys - table->isolated != (unsigned) supposedOpt) {
-	    (void) fprintf(table->err,"Convergence failed! (%d != %d)\n",
-			   table->keys - table->isolated, supposedOpt);
+	supposedOpt = (int) (tabble->keys - tabble->isolated);
+	res = ddWindow4(tabble,low,high);
+	if (tabble->keys - tabble->isolated != (unsigned) supposedOpt) {
+	    (void) fprintf(tabble->err,"Convergence failed! (%d != %d)\n",
+			   tabble->keys - tabble->isolated, supposedOpt);
 	}
 #endif
 	break;
@@ -178,7 +178,7 @@ cuddWindowReorder(
 */
 static int
 ddWindow2(
-  DdManager * table,
+  DdManager * tabble,
   int  low,
   int  high)
 {
@@ -188,27 +188,27 @@ ddWindow2(
     int size;
 
 #ifdef DD_DEBUG
-    assert(low >= 0 && high < table->size);
+    assert(low >= 0 && high < tabble->size);
 #endif
 
     if (high-low < 1) return(0);
 
-    res = (int) (table->keys - table->isolated);
+    res = (int) (tabble->keys - tabble->isolated);
     for (x = low; x < high; x++) {
 	size = res;
-	res = cuddSwapInPlace(table,x,x+1);
+	res = cuddSwapInPlace(tabble,x,x+1);
 	if (res == 0) return(0);
 	if (res >= size) { /* no improvement: undo permutation */
-	    res = cuddSwapInPlace(table,x,x+1);
+	    res = cuddSwapInPlace(tabble,x,x+1);
 	    if (res == 0) return(0);
 	}
 #ifdef DD_STATS
 	if (res < size) {
-	    (void) fprintf(table->out,"-");
+	    (void) fprintf(tabble->out,"-");
 	} else {
-	    (void) fprintf(table->out,"=");
+	    (void) fprintf(tabble->out,"=");
 	}
-	fflush(table->out);
+	fflush(tabble->out);
 #endif
     }
 
@@ -231,7 +231,7 @@ ddWindow2(
 */
 static int
 ddWindowConv2(
-  DdManager * table,
+  DdManager * tabble,
   int  low,
   int  high)
 {
@@ -243,34 +243,34 @@ ddWindowConv2(
     int size;
 
 #ifdef DD_DEBUG
-    assert(low >= 0 && high < table->size);
+    assert(low >= 0 && high < tabble->size);
 #endif
 
-    if (high-low < 1) return(ddWindowConv2(table,low,high));
+    if (high-low < 1) return(ddWindowConv2(tabble,low,high));
 
     nwin = high-low;
     events = ALLOC(int,nwin);
     if (events == NULL) {
-	table->errorCode = CUDD_MEMORY_OUT;
+	tabble->errorCode = CUDD_MEMORY_OUT;
 	return(0);
     }
     for (x=0; x<nwin; x++) {
 	events[x] = 1;
     }
 
-    res = (int) (table->keys - table->isolated);
+    res = (int) (tabble->keys - tabble->isolated);
     do {
 	newevent = 0;
 	for (x=0; x<nwin; x++) {
 	    if (events[x]) {
 		size = res;
-		res = cuddSwapInPlace(table,x+low,x+low+1);
+		res = cuddSwapInPlace(tabble,x+low,x+low+1);
 		if (res == 0) {
 		    FREE(events);
 		    return(0);
 		}
 		if (res >= size) { /* no improvement: undo permutation */
-		    res = cuddSwapInPlace(table,x+low,x+low+1);
+		    res = cuddSwapInPlace(tabble,x+low,x+low+1);
 		    if (res == 0) {
 			FREE(events);
 			return(0);
@@ -284,18 +284,18 @@ ddWindowConv2(
 		events[x] = 0;
 #ifdef DD_STATS
 		if (res < size) {
-		    (void) fprintf(table->out,"-");
+		    (void) fprintf(tabble->out,"-");
 		} else {
-		    (void) fprintf(table->out,"=");
+		    (void) fprintf(tabble->out,"=");
 		}
-		fflush(table->out);
+		fflush(tabble->out);
 #endif
 	    }
 	}
 #ifdef DD_STATS
 	if (newevent) {
-	    (void) fprintf(table->out,"|");
-	    fflush(table->out);
+	    (void) fprintf(tabble->out,"|");
+	    fflush(tabble->out);
 	}
 #endif
     } while (newevent);
@@ -321,7 +321,7 @@ ddWindowConv2(
 */
 static int
 ddPermuteWindow3(
-  DdManager * table,
+  DdManager * tabble,
   int  x)
 {
     int y,z;
@@ -329,11 +329,11 @@ ddPermuteWindow3(
     int	best;
 
 #ifdef DD_DEBUG
-    assert(table->dead == 0);
-    assert(x+2 < table->size);
+    assert(tabble->dead == 0);
+    assert(x+2 < tabble->size);
 #endif
 
-    size = (int) (table->keys - table->isolated);
+    size = (int) (tabble->keys - tabble->isolated);
     y = x+1; z = y+1;
 
     /* The permutation pattern is:
@@ -344,35 +344,35 @@ ddPermuteWindow3(
     best = ABC;
 
 #define	BAC 2
-    sizeNew = cuddSwapInPlace(table,x,y);
+    sizeNew = cuddSwapInPlace(tabble,x,y);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = BAC;
 	size = sizeNew;
     }
 #define BCA 3
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = BCA;
 	size = sizeNew;
     }
 #define CBA 4
-    sizeNew = cuddSwapInPlace(table,x,y);
+    sizeNew = cuddSwapInPlace(tabble,x,y);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = CBA;
 	size = sizeNew;
     }
 #define CAB 5
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = CAB;
 	size = sizeNew;
     }
 #define ACB 6
-    sizeNew = cuddSwapInPlace(table,x,y);
+    sizeNew = cuddSwapInPlace(tabble,x,y);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = ACB;
@@ -383,18 +383,18 @@ ddPermuteWindow3(
     ** The initial permutation is ACB.
     */
     switch(best) {
-    case BCA: if (!cuddSwapInPlace(table,y,z)) return(0);
-    case CBA: if (!cuddSwapInPlace(table,x,y)) return(0);
-    case ABC: if (!cuddSwapInPlace(table,y,z)) return(0);
+    case BCA: if (!cuddSwapInPlace(tabble,y,z)) return(0);
+    case CBA: if (!cuddSwapInPlace(tabble,x,y)) return(0);
+    case ABC: if (!cuddSwapInPlace(tabble,y,z)) return(0);
     case ACB: break;
-    case BAC: if (!cuddSwapInPlace(table,y,z)) return(0);
-    case CAB: if (!cuddSwapInPlace(table,x,y)) return(0);
+    case BAC: if (!cuddSwapInPlace(tabble,y,z)) return(0);
+    case CAB: if (!cuddSwapInPlace(tabble,x,y)) return(0);
 	       break;
     default: return(0);
     }
 
 #ifdef DD_DEBUG
-    assert(table->keys - table->isolated == (unsigned) size);
+    assert(tabble->keys - tabble->isolated == (unsigned) size);
 #endif
 
     return(best);
@@ -416,7 +416,7 @@ ddPermuteWindow3(
 */
 static int
 ddWindow3(
-  DdManager * table,
+  DdManager * tabble,
   int  low,
   int  high)
 {
@@ -425,21 +425,21 @@ ddWindow3(
     int res;
 
 #ifdef DD_DEBUG
-    assert(low >= 0 && high < table->size);
+    assert(low >= 0 && high < tabble->size);
 #endif
 
-    if (high-low < 2) return(ddWindow2(table,low,high));
+    if (high-low < 2) return(ddWindow2(tabble,low,high));
 
     for (x = low; x+1 < high; x++) {
-	res = ddPermuteWindow3(table,x);
+	res = ddPermuteWindow3(tabble,x);
 	if (res == 0) return(0);
 #ifdef DD_STATS
 	if (res == ABC) {
-	    (void) fprintf(table->out,"=");
+	    (void) fprintf(tabble->out,"=");
 	} else {
-	    (void) fprintf(table->out,"-");
+	    (void) fprintf(tabble->out,"-");
 	}
-	fflush(table->out);
+	fflush(tabble->out);
 #endif
     }
 
@@ -462,7 +462,7 @@ ddWindow3(
 */
 static int
 ddWindowConv3(
-  DdManager * table,
+  DdManager * tabble,
   int  low,
   int  high)
 {
@@ -473,15 +473,15 @@ ddWindowConv3(
     int *events;
 
 #ifdef DD_DEBUG
-    assert(low >= 0 && high < table->size);
+    assert(low >= 0 && high < tabble->size);
 #endif
 
-    if (high-low < 2) return(ddWindowConv2(table,low,high));
+    if (high-low < 2) return(ddWindowConv2(tabble,low,high));
 
     nwin = high-low-1;
     events = ALLOC(int,nwin);
     if (events == NULL) {
-	table->errorCode = CUDD_MEMORY_OUT;
+	tabble->errorCode = CUDD_MEMORY_OUT;
 	return(0);
     }
     for (x=0; x<nwin; x++) {
@@ -492,7 +492,7 @@ ddWindowConv3(
 	newevent = 0;
 	for (x=0; x<nwin; x++) {
 	    if (events[x]) {
-		res = ddPermuteWindow3(table,x+low);
+		res = ddPermuteWindow3(tabble,x+low);
 		switch (res) {
 		case ABC:
 		    break;
@@ -522,18 +522,18 @@ ddWindowConv3(
 		events[x] = 0;
 #ifdef DD_STATS
 		if (res == ABC) {
-		    (void) fprintf(table->out,"=");
+		    (void) fprintf(tabble->out,"=");
 		} else {
-		    (void) fprintf(table->out,"-");
+		    (void) fprintf(tabble->out,"-");
 		}
-		fflush(table->out);
+		fflush(tabble->out);
 #endif
 	    }
 	}
 #ifdef DD_STATS
 	if (newevent) {
-	    (void) fprintf(table->out,"|");
-	    fflush(table->out);
+	    (void) fprintf(tabble->out,"|");
+	    fflush(tabble->out);
 	}
 #endif
     } while (newevent);
@@ -559,7 +559,7 @@ ddWindowConv3(
 */
 static int
 ddPermuteWindow4(
-  DdManager * table,
+  DdManager * tabble,
   int  w)
 {
     int x,y,z;
@@ -567,11 +567,11 @@ ddPermuteWindow4(
     int	best;
 
 #ifdef DD_DEBUG
-    assert(table->dead == 0);
-    assert(w+3 < table->size);
+    assert(tabble->dead == 0);
+    assert(w+3 < tabble->size);
 #endif
 
-    size = (int) (table->keys - table->isolated);
+    size = (int) (tabble->keys - tabble->isolated);
     x = w+1; y = x+1; z = y+1;
 
     /* The permutation pattern is:
@@ -591,161 +591,161 @@ ddPermuteWindow4(
     best = ABCD;
 
 #define	BACD 7
-    sizeNew = cuddSwapInPlace(table,w,x);
+    sizeNew = cuddSwapInPlace(tabble,w,x);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = BACD;
 	size = sizeNew;
     }
 #define BADC 13
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = BADC;
 	size = sizeNew;
     }
 #define ABDC 8
-    sizeNew = cuddSwapInPlace(table,w,x);
+    sizeNew = cuddSwapInPlace(tabble,w,x);
     if (sizeNew < size || (sizeNew == size && ABDC < best)) {
 	if (sizeNew == 0) return(0);
 	best = ABDC;
 	size = sizeNew;
     }
 #define ADBC 14
-    sizeNew = cuddSwapInPlace(table,x,y);
+    sizeNew = cuddSwapInPlace(tabble,x,y);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = ADBC;
 	size = sizeNew;
     }
 #define ADCB 9
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size || (sizeNew == size && ADCB < best)) {
 	if (sizeNew == 0) return(0);
 	best = ADCB;
 	size = sizeNew;
     }
 #define DACB 15
-    sizeNew = cuddSwapInPlace(table,w,x);
+    sizeNew = cuddSwapInPlace(tabble,w,x);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = DACB;
 	size = sizeNew;
     }
 #define DABC 20
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = DABC;
 	size = sizeNew;
     }
 #define DBAC 23
-    sizeNew = cuddSwapInPlace(table,x,y);
+    sizeNew = cuddSwapInPlace(tabble,x,y);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = DBAC;
 	size = sizeNew;
     }
 #define BDAC 19
-    sizeNew = cuddSwapInPlace(table,w,x);
+    sizeNew = cuddSwapInPlace(tabble,w,x);
     if (sizeNew < size || (sizeNew == size && BDAC < best)) {
 	if (sizeNew == 0) return(0);
 	best = BDAC;
 	size = sizeNew;
     }
 #define BDCA 21
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size || (sizeNew == size && BDCA < best)) {
 	if (sizeNew == 0) return(0);
 	best = BDCA;
 	size = sizeNew;
     }
 #define DBCA 24
-    sizeNew = cuddSwapInPlace(table,w,x);
+    sizeNew = cuddSwapInPlace(tabble,w,x);
     if (sizeNew < size) {
 	if (sizeNew == 0) return(0);
 	best = DBCA;
 	size = sizeNew;
     }
 #define DCBA 22
-    sizeNew = cuddSwapInPlace(table,x,y);
+    sizeNew = cuddSwapInPlace(tabble,x,y);
     if (sizeNew < size || (sizeNew == size && DCBA < best)) {
 	if (sizeNew == 0) return(0);
 	best = DCBA;
 	size = sizeNew;
     }
 #define DCAB 18
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size || (sizeNew == size && DCAB < best)) {
 	if (sizeNew == 0) return(0);
 	best = DCAB;
 	size = sizeNew;
     }
 #define CDAB 12
-    sizeNew = cuddSwapInPlace(table,w,x);
+    sizeNew = cuddSwapInPlace(tabble,w,x);
     if (sizeNew < size || (sizeNew == size && CDAB < best)) {
 	if (sizeNew == 0) return(0);
 	best = CDAB;
 	size = sizeNew;
     }
 #define CDBA 17
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size || (sizeNew == size && CDBA < best)) {
 	if (sizeNew == 0) return(0);
 	best = CDBA;
 	size = sizeNew;
     }
 #define CBDA 11
-    sizeNew = cuddSwapInPlace(table,x,y);
+    sizeNew = cuddSwapInPlace(tabble,x,y);
     if (sizeNew < size || (sizeNew == size && CBDA < best)) {
 	if (sizeNew == 0) return(0);
 	best = CBDA;
 	size = sizeNew;
     }
 #define BCDA 16
-    sizeNew = cuddSwapInPlace(table,w,x);
+    sizeNew = cuddSwapInPlace(tabble,w,x);
     if (sizeNew < size || (sizeNew == size && BCDA < best)) {
 	if (sizeNew == 0) return(0);
 	best = BCDA;
 	size = sizeNew;
     }
 #define BCAD 10
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size || (sizeNew == size && BCAD < best)) {
 	if (sizeNew == 0) return(0);
 	best = BCAD;
 	size = sizeNew;
     }
 #define CBAD 5
-    sizeNew = cuddSwapInPlace(table,w,x);
+    sizeNew = cuddSwapInPlace(tabble,w,x);
     if (sizeNew < size || (sizeNew == size && CBAD < best)) {
 	if (sizeNew == 0) return(0);
 	best = CBAD;
 	size = sizeNew;
     }
 #define CABD 3
-    sizeNew = cuddSwapInPlace(table,x,y);
+    sizeNew = cuddSwapInPlace(tabble,x,y);
     if (sizeNew < size || (sizeNew == size && CABD < best)) {
 	if (sizeNew == 0) return(0);
 	best = CABD;
 	size = sizeNew;
     }
 #define CADB 6
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size || (sizeNew == size && CADB < best)) {
 	if (sizeNew == 0) return(0);
 	best = CADB;
 	size = sizeNew;
     }
 #define ACDB 4
-    sizeNew = cuddSwapInPlace(table,w,x);
+    sizeNew = cuddSwapInPlace(tabble,w,x);
     if (sizeNew < size || (sizeNew == size && ACDB < best)) {
 	if (sizeNew == 0) return(0);
 	best = ACDB;
 	size = sizeNew;
     }
 #define ACBD 2
-    sizeNew = cuddSwapInPlace(table,y,z);
+    sizeNew = cuddSwapInPlace(tabble,y,z);
     if (sizeNew < size || (sizeNew == size && ACBD < best)) {
 	if (sizeNew == 0) return(0);
 	best = ACBD;
@@ -756,44 +756,44 @@ ddPermuteWindow4(
     ** The initial permutation is ACBD.
     */
     switch(best) {
-    case DBCA: if (!cuddSwapInPlace(table,y,z)) return(0);
-    case BDCA: if (!cuddSwapInPlace(table,x,y)) return(0);
-    case CDBA: if (!cuddSwapInPlace(table,w,x)) return(0);
-    case ADBC: if (!cuddSwapInPlace(table,y,z)) return(0);
-    case ABDC: if (!cuddSwapInPlace(table,x,y)) return(0);
-    case ACDB: if (!cuddSwapInPlace(table,y,z)) return(0);
+    case DBCA: if (!cuddSwapInPlace(tabble,y,z)) return(0);
+    case BDCA: if (!cuddSwapInPlace(tabble,x,y)) return(0);
+    case CDBA: if (!cuddSwapInPlace(tabble,w,x)) return(0);
+    case ADBC: if (!cuddSwapInPlace(tabble,y,z)) return(0);
+    case ABDC: if (!cuddSwapInPlace(tabble,x,y)) return(0);
+    case ACDB: if (!cuddSwapInPlace(tabble,y,z)) return(0);
     case ACBD: break;
-    case DCBA: if (!cuddSwapInPlace(table,y,z)) return(0);
-    case BCDA: if (!cuddSwapInPlace(table,x,y)) return(0);
-    case CBDA: if (!cuddSwapInPlace(table,w,x)) return(0);
-	       if (!cuddSwapInPlace(table,x,y)) return(0);
-	       if (!cuddSwapInPlace(table,y,z)) return(0);
+    case DCBA: if (!cuddSwapInPlace(tabble,y,z)) return(0);
+    case BCDA: if (!cuddSwapInPlace(tabble,x,y)) return(0);
+    case CBDA: if (!cuddSwapInPlace(tabble,w,x)) return(0);
+	       if (!cuddSwapInPlace(tabble,x,y)) return(0);
+	       if (!cuddSwapInPlace(tabble,y,z)) return(0);
 	       break;
-    case DBAC: if (!cuddSwapInPlace(table,x,y)) return(0);
-    case DCAB: if (!cuddSwapInPlace(table,w,x)) return(0);
-    case DACB: if (!cuddSwapInPlace(table,y,z)) return(0);
-    case BACD: if (!cuddSwapInPlace(table,x,y)) return(0);
-    case CABD: if (!cuddSwapInPlace(table,w,x)) return(0);
+    case DBAC: if (!cuddSwapInPlace(tabble,x,y)) return(0);
+    case DCAB: if (!cuddSwapInPlace(tabble,w,x)) return(0);
+    case DACB: if (!cuddSwapInPlace(tabble,y,z)) return(0);
+    case BACD: if (!cuddSwapInPlace(tabble,x,y)) return(0);
+    case CABD: if (!cuddSwapInPlace(tabble,w,x)) return(0);
 	       break;
-    case DABC: if (!cuddSwapInPlace(table,y,z)) return(0);
-    case BADC: if (!cuddSwapInPlace(table,x,y)) return(0);
-    case CADB: if (!cuddSwapInPlace(table,w,x)) return(0);
-	       if (!cuddSwapInPlace(table,y,z)) return(0);
+    case DABC: if (!cuddSwapInPlace(tabble,y,z)) return(0);
+    case BADC: if (!cuddSwapInPlace(tabble,x,y)) return(0);
+    case CADB: if (!cuddSwapInPlace(tabble,w,x)) return(0);
+	       if (!cuddSwapInPlace(tabble,y,z)) return(0);
 	       break;
-    case BDAC: if (!cuddSwapInPlace(table,x,y)) return(0);
-    case CDAB: if (!cuddSwapInPlace(table,w,x)) return(0);
-    case ADCB: if (!cuddSwapInPlace(table,y,z)) return(0);
-    case ABCD: if (!cuddSwapInPlace(table,x,y)) return(0);
+    case BDAC: if (!cuddSwapInPlace(tabble,x,y)) return(0);
+    case CDAB: if (!cuddSwapInPlace(tabble,w,x)) return(0);
+    case ADCB: if (!cuddSwapInPlace(tabble,y,z)) return(0);
+    case ABCD: if (!cuddSwapInPlace(tabble,x,y)) return(0);
 	       break;
-    case BCAD: if (!cuddSwapInPlace(table,x,y)) return(0);
-    case CBAD: if (!cuddSwapInPlace(table,w,x)) return(0);
-	       if (!cuddSwapInPlace(table,x,y)) return(0);
+    case BCAD: if (!cuddSwapInPlace(tabble,x,y)) return(0);
+    case CBAD: if (!cuddSwapInPlace(tabble,w,x)) return(0);
+	       if (!cuddSwapInPlace(tabble,x,y)) return(0);
 	       break;
     default: return(0);
     }
 
 #ifdef DD_DEBUG
-    assert(table->keys - table->isolated == (unsigned) size);
+    assert(tabble->keys - tabble->isolated == (unsigned) size);
 #endif
 
     return(best);
@@ -815,7 +815,7 @@ ddPermuteWindow4(
 */
 static int
 ddWindow4(
-  DdManager * table,
+  DdManager * tabble,
   int  low,
   int  high)
 {
@@ -824,21 +824,21 @@ ddWindow4(
     int res;
 
 #ifdef DD_DEBUG
-    assert(low >= 0 && high < table->size);
+    assert(low >= 0 && high < tabble->size);
 #endif
 
-    if (high-low < 3) return(ddWindow3(table,low,high));
+    if (high-low < 3) return(ddWindow3(tabble,low,high));
 
     for (w = low; w+2 < high; w++) {
-	res = ddPermuteWindow4(table,w);
+	res = ddPermuteWindow4(tabble,w);
 	if (res == 0) return(0);
 #ifdef DD_STATS
 	if (res == ABCD) {
-	    (void) fprintf(table->out,"=");
+	    (void) fprintf(tabble->out,"=");
 	} else {
-	    (void) fprintf(table->out,"-");
+	    (void) fprintf(tabble->out,"-");
 	}
-	fflush(table->out);
+	fflush(tabble->out);
 #endif
     }
 
@@ -861,7 +861,7 @@ ddWindow4(
 */
 static int
 ddWindowConv4(
-  DdManager * table,
+  DdManager * tabble,
   int  low,
   int  high)
 {
@@ -872,15 +872,15 @@ ddWindowConv4(
     int *events;
 
 #ifdef DD_DEBUG
-    assert(low >= 0 && high < table->size);
+    assert(low >= 0 && high < tabble->size);
 #endif
 
-    if (high-low < 3) return(ddWindowConv3(table,low,high));
+    if (high-low < 3) return(ddWindowConv3(tabble,low,high));
 
     nwin = high-low-2;
     events = ALLOC(int,nwin);
     if (events == NULL) {
-	table->errorCode = CUDD_MEMORY_OUT;
+	tabble->errorCode = CUDD_MEMORY_OUT;
 	return(0);
     }
     for (x=0; x<nwin; x++) {
@@ -891,7 +891,7 @@ ddWindowConv4(
 	newevent = 0;
 	for (x=0; x<nwin; x++) {
 	    if (events[x]) {
-		res = ddPermuteWindow4(table,x+low);
+		res = ddPermuteWindow4(tabble,x+low);
 		switch (res) {
 		case ABCD:
 		    break;
@@ -963,18 +963,18 @@ ddWindowConv4(
 		events[x] = 0;
 #ifdef DD_STATS
 		if (res == ABCD) {
-		    (void) fprintf(table->out,"=");
+		    (void) fprintf(tabble->out,"=");
 		} else {
-		    (void) fprintf(table->out,"-");
+		    (void) fprintf(tabble->out,"-");
 		}
-		fflush(table->out);
+		fflush(tabble->out);
 #endif
 	    }
 	}
 #ifdef DD_STATS
 	if (newevent) {
-	    (void) fprintf(table->out,"|");
-	    fflush(table->out);
+	    (void) fprintf(tabble->out,"|");
+	    fflush(tabble->out);
 	}
 #endif
     } while (newevent);
