@@ -7,7 +7,7 @@
 :- set_sc(depth_bound,true).
 :- set_sc(specialization,mode).
 :- set_sc(verbosity,1).
-:- set_sc(c_seed,1518107781).
+:- set_sc(c_seed,1518115313).
 :- begin_bg.
 :-end_bg.
 fold(1,[354,374,314,55,42,361,379,4,238,251,3,234,325,416,260,172,223,394,213,62,232,123,88,78,185,36,31,82,362,301,330,43,49,210,294,399,136,233,108,287,340,171,14,192,199,408,351,304,72,46,74,95,92,383,365,124,205,104,41,291,76,73,141,22,267,21,83,190,428,285,418,25,131,235,111,268,309,195,415,15,288,89,85,228,215,100]).
@@ -15,7 +15,7 @@ fold(2,[60,66,279,184,93,334,161,139,378,323,37,339,91,156,196,176,332,424,202,1
 fold(3,[295,162,402,217,94,259,352,112,271,389,303,312,18,420,87,80,358,377,30,209,142,143,305,380,326,392,121,58,57,2,224,107,357,39,384,275,372,133,189,427,296,20,102,167,236,169,353,149,368,19,429,425,163,310,90,281,175,336,70,103,214,115,411,395,38,117,390,315,245,157,322,67,327,273,101,152,86,298,106,84,316,386,404,297,219,116]).
 fold(4,[338,421,177,159,69,9,193,168,277,393,61,218,222,381,65,179,40,6,109,366,194,426,403,227,114,12,1,119,252,137,178,53,308,17,56,375,225,414,369,130,387,5,376,204,398,13,257,206,10,174,311,24,48,147,198,306,318,203,207,356,23,363,337,412,430,28,255,341,317,145,423,120,331,270,290,64,129,54,229,63,164,405,146,158,132,148]).
 fold(5,[307,266,118,247,134,293,150,409,254,125,188,50,256,342,113,343,59,33,396,360,410,144,52,391,230,99,347,32,151,265,324,349,212,417,346,313,240,122,400,211,388,364,262,79,77,284,7,367,29,283,282,272,173,263,27,244,98,170,289,373,370,135,181,241,413,153,68,96,138,382,11,237,231,302,208,328,226,419,242,8,200,197,154,280,16,345]).
-output('Ü‡÷ü' /0).
+output('œ:&¢þ' /0).
 output('CDH1' /0).
 output('ENSG00000245549' /0).
 output('GATA3' /0).
@@ -25,7 +25,7 @@ output('MUC16' /0).
 output('PIK3CA' /0).
 output('TP53' /0).
 output('TTN' /0).
-input('Ü‡÷ü' /0).
+input('œ:&¢þ' /0).
 input('CDH1' /0).
 input('ENSG00000245549' /0).
 input('GATA3' /0).
@@ -35,7 +35,7 @@ input('MUC16' /0).
 input('PIK3CA' /0).
 input('TP53' /0).
 input('TTN' /0).
-modeh(*,'Ü‡÷ü').
+modeh(*,'œ:&¢þ').
 modeh(*,'CDH1').
 modeh(*,'ENSG00000245549').
 modeh(*,'GATA3').
@@ -45,7 +45,7 @@ modeh(*,'MUC16').
 modeh(*,'PIK3CA').
 modeh(*,'TP53').
 modeh(*,'TTN').
-modeb(*,'Ü‡÷ü').
+modeb(*,'œ:&¢þ').
 modeb(*,'CDH1').
 modeb(*,'ENSG00000245549').
 modeb(*,'GATA3').
@@ -55,16 +55,16 @@ modeb(*,'MUC16').
 modeb(*,'PIK3CA').
 modeb(*,'TP53').
 modeb(*,'TTN').
-determination('Ü‡÷ü' /0, 'CDH1' /0).
-determination('Ü‡÷ü' /0, 'ENSG00000245549' /0).
-determination('Ü‡÷ü' /0, 'GATA3' /0).
-determination('Ü‡÷ü' /0, 'MAP3K1' /0).
-determination('Ü‡÷ü' /0, 'MLL3' /0).
-determination('Ü‡÷ü' /0, 'MUC16' /0).
-determination('Ü‡÷ü' /0, 'PIK3CA' /0).
-determination('Ü‡÷ü' /0, 'TP53' /0).
-determination('Ü‡÷ü' /0, 'TTN' /0).
-determination('CDH1' /0, 'Ü‡÷ü' /0).
+determination('œ:&¢þ' /0, 'CDH1' /0).
+determination('œ:&¢þ' /0, 'ENSG00000245549' /0).
+determination('œ:&¢þ' /0, 'GATA3' /0).
+determination('œ:&¢þ' /0, 'MAP3K1' /0).
+determination('œ:&¢þ' /0, 'MLL3' /0).
+determination('œ:&¢þ' /0, 'MUC16' /0).
+determination('œ:&¢þ' /0, 'PIK3CA' /0).
+determination('œ:&¢þ' /0, 'TP53' /0).
+determination('œ:&¢þ' /0, 'TTN' /0).
+determination('CDH1' /0, 'œ:&¢þ' /0).
 determination('CDH1' /0, 'ENSG00000245549' /0).
 determination('CDH1' /0, 'GATA3' /0).
 determination('CDH1' /0, 'MAP3K1' /0).
@@ -73,7 +73,7 @@ determination('CDH1' /0, 'MUC16' /0).
 determination('CDH1' /0, 'PIK3CA' /0).
 determination('CDH1' /0, 'TP53' /0).
 determination('CDH1' /0, 'TTN' /0).
-determination('ENSG00000245549' /0, 'Ü‡÷ü' /0).
+determination('ENSG00000245549' /0, 'œ:&¢þ' /0).
 determination('ENSG00000245549' /0, 'CDH1' /0).
 determination('ENSG00000245549' /0, 'GATA3' /0).
 determination('ENSG00000245549' /0, 'MAP3K1' /0).
@@ -82,7 +82,7 @@ determination('ENSG00000245549' /0, 'MUC16' /0).
 determination('ENSG00000245549' /0, 'PIK3CA' /0).
 determination('ENSG00000245549' /0, 'TP53' /0).
 determination('ENSG00000245549' /0, 'TTN' /0).
-determination('GATA3' /0, 'Ü‡÷ü' /0).
+determination('GATA3' /0, 'œ:&¢þ' /0).
 determination('GATA3' /0, 'CDH1' /0).
 determination('GATA3' /0, 'ENSG00000245549' /0).
 determination('GATA3' /0, 'MAP3K1' /0).
@@ -91,7 +91,7 @@ determination('GATA3' /0, 'MUC16' /0).
 determination('GATA3' /0, 'PIK3CA' /0).
 determination('GATA3' /0, 'TP53' /0).
 determination('GATA3' /0, 'TTN' /0).
-determination('MAP3K1' /0, 'Ü‡÷ü' /0).
+determination('MAP3K1' /0, 'œ:&¢þ' /0).
 determination('MAP3K1' /0, 'CDH1' /0).
 determination('MAP3K1' /0, 'ENSG00000245549' /0).
 determination('MAP3K1' /0, 'GATA3' /0).
@@ -100,7 +100,7 @@ determination('MAP3K1' /0, 'MUC16' /0).
 determination('MAP3K1' /0, 'PIK3CA' /0).
 determination('MAP3K1' /0, 'TP53' /0).
 determination('MAP3K1' /0, 'TTN' /0).
-determination('MLL3' /0, 'Ü‡÷ü' /0).
+determination('MLL3' /0, 'œ:&¢þ' /0).
 determination('MLL3' /0, 'CDH1' /0).
 determination('MLL3' /0, 'ENSG00000245549' /0).
 determination('MLL3' /0, 'GATA3' /0).
@@ -109,7 +109,7 @@ determination('MLL3' /0, 'MUC16' /0).
 determination('MLL3' /0, 'PIK3CA' /0).
 determination('MLL3' /0, 'TP53' /0).
 determination('MLL3' /0, 'TTN' /0).
-determination('MUC16' /0, 'Ü‡÷ü' /0).
+determination('MUC16' /0, 'œ:&¢þ' /0).
 determination('MUC16' /0, 'CDH1' /0).
 determination('MUC16' /0, 'ENSG00000245549' /0).
 determination('MUC16' /0, 'GATA3' /0).
@@ -118,7 +118,7 @@ determination('MUC16' /0, 'MLL3' /0).
 determination('MUC16' /0, 'PIK3CA' /0).
 determination('MUC16' /0, 'TP53' /0).
 determination('MUC16' /0, 'TTN' /0).
-determination('PIK3CA' /0, 'Ü‡÷ü' /0).
+determination('PIK3CA' /0, 'œ:&¢þ' /0).
 determination('PIK3CA' /0, 'CDH1' /0).
 determination('PIK3CA' /0, 'ENSG00000245549' /0).
 determination('PIK3CA' /0, 'GATA3' /0).
@@ -127,7 +127,7 @@ determination('PIK3CA' /0, 'MLL3' /0).
 determination('PIK3CA' /0, 'MUC16' /0).
 determination('PIK3CA' /0, 'TP53' /0).
 determination('PIK3CA' /0, 'TTN' /0).
-determination('TP53' /0, 'Ü‡÷ü' /0).
+determination('TP53' /0, 'œ:&¢þ' /0).
 determination('TP53' /0, 'CDH1' /0).
 determination('TP53' /0, 'ENSG00000245549' /0).
 determination('TP53' /0, 'GATA3' /0).
@@ -136,7 +136,7 @@ determination('TP53' /0, 'MLL3' /0).
 determination('TP53' /0, 'MUC16' /0).
 determination('TP53' /0, 'PIK3CA' /0).
 determination('TP53' /0, 'TTN' /0).
-determination('TTN' /0, 'Ü‡÷ü' /0).
+determination('TTN' /0, 'œ:&¢þ' /0).
 determination('TTN' /0, 'CDH1' /0).
 determination('TTN' /0, 'ENSG00000245549' /0).
 determination('TTN' /0, 'GATA3' /0).
