@@ -1,0 +1,46 @@
+:- use_module(library(tabling)).
+:- table reachability/2.
+
+reachability(X, Y) :-
+        reachability(X, Z),
+        reachability(Z, Y).
+reachability(X, Y) :-
+        edge(X,Y,_).
+alltrue(_X, []).                                     % No one left to check
+alltrue(X, [H|L]) :- \+edge(H,X,_), alltrue(X, L).   % Check head, then rest
+
+%root(X) :- alltrue(X, [tp53,gata3,muc16,ensg00000245549,pik3ca,map3k1,mll3,ttn,ush2a,cdh1]).
+
+edge(tp53,gata3,0.789157).
+edge(tp53,muc16,0.905924).
+edge(tp53,ensg00000245549,1).
+edge(tp53,map3k1,1).
+edge(pik3ca,gata3,0.991984).
+edge(pik3ca,mll3,0.991984).
+edge(ttn,muc16,1).
+edge(ttn,ush2a,1).
+edge(ttn,mll3,1).
+edge(ttn,tp53,0.530457).
+edge(ttn,gata3,0.399302).
+edge(ttn,cdh1,1).
+edge(gata3,ensg00000245549,0.633602).
+edge(map3k1,ush2a,0.635121).
+edge(map3k1,cdh1,0.110413).
+edge(muc16,ush2a,0.613597).
+edge(muc16,ensg00000245549,1).
+edge(muc16,mll3,1).
+edge(ush2a,gata3,1).
+edge(ush2a,ensg00000245549,1).
+edge(ush2a,map3k1,1).
+edge(ush2a,cdh1,1).
+edge(ensg00000245549,cdh1,0.657258).
+edge(ensg00000245549,mll3,0.454334).
+% edge(ensg00000245549,ttn,0.239160).
+edge(ensg00000245549,pik3ca,0.454334).
+edge(ensg00000245549,map3k1,0.494493).
+edge(cdh1,map3k1,0.470175).
+edge(cdh1,tp53,0.177268).
+edge(cdh1,ensg00000245549,1).
+edge(cdh1,ush2a,1).
+edge(cdh1,pik3ca,0.954635).
+edge(cdh1,muc16,0.277014).

@@ -4,7 +4,7 @@
 #include <math.h>
 
 //TODO: 1)Evitare loop del tipo a->b->a (in sostanza devo scegliere uno dei due archi).
-//		2)Rendere il codice decente
+//    2)Rendere il codice decente
 
 struct edge {
   char from[80];
@@ -32,7 +32,16 @@ void removeChar(char *str, char garbage) {
     }
     *dst = '\0';
 }
-
+void lower_string(char s[]) {
+   int c = 0;
+ 
+   while (s[c] != '\0') {
+      if (s[c] >= 'A' && s[c] <= 'Z') {
+         s[c] = s[c] + 32;
+      }
+      c++;
+   }
+}
 void parsestring(char *clause,int instance){
 double threshold=0.1; //elimino clausole con probabilità troppo bassa
 char *child;
@@ -48,12 +57,12 @@ char parent[10][80];
  /* walk through other tokens */
  while(token != NULL) {
   
-  if(strcmp(token,",")!=0 && strcmp(token,".")!=0 && strcmp(token,"-")!=0 && strcmp(token,"")!=0 && strcmp(token,"]")!=0){ 	
+  if(strcmp(token,",")!=0 && strcmp(token,".")!=0 && strcmp(token,"-")!=0 && strcmp(token,"")!=0 && strcmp(token,"]")!=0){  
    if (count==0){
       if(strchr(danger,*token)){
         removeChar(token,'-');
       }
-   	  child=token;
+      child=token;
       count++;
       ll=-atof(token);
   }
@@ -71,12 +80,6 @@ char parent[10][80];
     }
   strcpy (parent[p],token);
   int insert=1;
-  /**for(int i=0;i<p;i++){
-    strcpy(edges[numedges].from,parent[i]);
-    strcpy(edges[numedges].to,parent[p]);
-    edges[numedges].probability=1;
-    numedges++;
-  }*/
   for (int k=0;k<numedges;k++){
     if(strcmp(edges[k].from,child)==0 && strcmp(edges[k].to,parent[p])==0){ //se esiste già arco a->b se prob nuovo arco maggiore aggiorno valore
       if (edges[k].probability>prob){                                       //altrimenti skip al prossimo arco
@@ -103,27 +106,11 @@ char parent[10][80];
 token = strtok(NULL, separator);
 }
 }
-
-//for(int i=0;i<p-1;i++){
-  //  strcat(parent[p],parent[i]);
-  //strcat(parent[p],"+");
-    //printf("%s",parent[i]);
-  //} 
-//strcpy(parent[p],"");
-/**  if(insert>0){
-  strcpy(edges[numedges].from,parent[j]);
-  strcpy(edges[numedges].to,parent[p]);
-  edges[numedges].probability=prob;
-   //printf("\"%s\"->\"%s\" [style=invis,style=dotted,arrowhead=none];\n",parent[j],parent[p]);
-   numedges++;
-  }}}
-*/
-
 void graphtobeprinted(){
  for (int i=0;i<numedges;i++){
     for (int j=i+1;j<numedges;j++){
       if (strcmp(edges[i].from,edges[j].to)==0 && strcmp(edges[i].to,edges[j].from)==0){
-        if(edges[i].probability>=edges[j].probability){
+        if(edges[i].probability>edges[j].probability){
           edges[i].flag=1;
           edges[j].flag=-1;
         }else{
@@ -133,16 +120,16 @@ void graphtobeprinted(){
       }}
 
 void printgraph (){
-  //printf("%d\n",numedges);
   for (int i=0;i<numedges;i++){
+    lower_string(edges[i].from);
+    lower_string(edges[i].to);
     if(edges[i].flag>-1){
       if (edges[i].probability>0.995){
-      printf("\"%s\"->\"%s\" [style=bold,color=blue];\n",edges[i].from,edges[i].to);
+      printf("edge(%s,%s,1).\n",edges[i].from,edges[i].to);
       } else if (edges[i].probability>threshold){
-      printf("\"%s\"->\"%s\" [label=\"%.2f\"];\n",edges[i].from,edges[i].to,edges[i].probability);
+      printf("edge(%s,%s,%f).\n",edges[i].from,edges[i].to,edges[i].probability);
 }}
-}
-printf("}\n");}
+}}
 void prepara(){
 //char junk [10];
 char * clause;
@@ -153,9 +140,9 @@ size_t len;
 size_t read;
 char *token;
 const char separator []=",";
-printf("digraph oncograph{\n");
-printf("node [shape = box,fontname = \"Helvetica\"];\n");
-printf("rankdir=LR;\n");
+//printf("digraph oncograph{\n");
+//printf("node [shape = box,fontname = \"Helvetica\"];\n");
+//printf("rankdir=LR;\n");
 //scanf ("%s %s[^(]",junk,junk);
 clause = (char *)malloc(bufsize * sizeof(char));
 theend= strtok(clause, end);
@@ -177,6 +164,6 @@ int main(){
     prepara();
     graphtobeprinted();
     printgraph();
-    printf("LL=%lf \nAUROC=%lf \nAUCPR=%lf\n",ll,auroc,aucpr);
+    //printf("LL=%lf \nAUROC=%lf \nAUCPR=%lf\n",ll,auroc,aucpr);
     return(0);
 }

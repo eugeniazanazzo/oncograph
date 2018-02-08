@@ -21,7 +21,7 @@ double ll;
 double auroc;
 double aucpr;
 double threshold=0.1; //elimino clausole con probabilità troppo bassa 
-double upperbound=0.995; //arrotondo archi ad 1
+double upperbound=0.99; //arrotondo archi ad 1
 
 void removeChar(char *str, char garbage) {
 
@@ -129,19 +129,20 @@ void graphtobeprinted(){
         }else{
           edges[i].flag=-1;
           edges[j].flag=1;
-        }}}
+        }}
+      }
       }}
 
 void printgraph (){
   //printf("%d\n",numedges);
   for (int i=0;i<numedges;i++){
-    if(edges[i].flag>-1){
+    /**if(edges[i].flag>-1){
       if (edges[i].probability>0.995){
-      printf("\"%s\"->\"%s\" [style=bold,color=blue];\n",edges[i].from,edges[i].to);
-      } else if (edges[i].probability>threshold){
-      printf("\"%s\"->\"%s\" [label=\"%.2f\"];\n",edges[i].from,edges[i].to,edges[i].probability);
-}}
+      printf("\"%s\"->\"%s\" [label=\"%.2f\"] [style=bold,color=blue];\n",edges[i].from,edges[i].to,edges[i].probability*(ll));
+      } else if (edges[i].probability>threshold){ */
+      printf("\"%s\"->\"%s\" [label=\"%.6f\"];\n",edges[i].from,edges[i].to,edges[i].probability/(ll));
 }
+//}}
 printf("}\n");}
 void prepara(){
 //char junk [10];
@@ -155,7 +156,7 @@ char *token;
 const char separator []=",";
 printf("digraph oncograph{\n");
 printf("node [shape = box,fontname = \"Helvetica\"];\n");
-printf("rankdir=LR;\n");
+//printf("rankdir=LR;\n");
 //scanf ("%s %s[^(]",junk,junk);
 clause = (char *)malloc(bufsize * sizeof(char));
 theend= strtok(clause, end);
@@ -175,7 +176,7 @@ free(clause);
 }
 int main(){
     prepara();
-    graphtobeprinted();
+    //graphtobeprinted();
     printgraph();
     printf("LL=%lf \nAUROC=%lf \nAUCPR=%lf\n",ll,auroc,aucpr);
     return(0);
