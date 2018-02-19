@@ -148,11 +148,11 @@ void printgraph (){
   for (int i=0;i<numedges;i++){
     if(edges[i].flag>-1){
       if (edges[i].probability>0.995){
-      printf("\"%s\"->\"%s\" [style=bold,color=blue];\n",edges[i].from,edges[i].to);
+      printf("\"%s\"->\"%s\" [style=bold,color=blue];#flag=%d\n",edges[i].from,edges[i].to,edges[i].flag);
       } else if (edges[i].probability>threshold){
-      printf("\"%s\"->\"%s\" [label=\"%.2f\"];\n",edges[i].from,edges[i].to,edges[i].probability);
+      printf("\"%s\"->\"%s\" [label=\"%.2f\"];#flag=%d\n",edges[i].from,edges[i].to,edges[i].probability,edges[i].flag);
 }}
-}printf("}\n");}
+}}
 void printedges (){
   for (int i=0;i<numedges;i++){
     lower_string(edges[i].from);
@@ -163,8 +163,8 @@ void printedges (){
       } else if (edges[i].probability>threshold){
       printf("edge(%s,%s,%f).\n",edges[i].from,edges[i].to,edges[i].probability);
 }}
-}
-}
+}}
+//printf("}\n");}
 void prepara(){
 //char junk [10];
 char * clause;
@@ -175,9 +175,9 @@ size_t len;
 size_t read;
 char *token;
 const char separator []=",";
-printf("digraph oncograph{\n");
-printf("node [shape = box,fontname = \"Helvetica\"];\n");
-printf("rankdir=LR;\n");
+//printf("digraph oncograph{\n");
+//printf("node [shape = box,fontname = \"Helvetica\"];\n");
+//printf("rankdir=LR;\n");
 //scanf ("%s %s[^(]",junk,junk);
 clause = (char *)malloc(bufsize * sizeof(char));
 theend= strtok(clause, end);
@@ -198,8 +198,8 @@ free(clause);
 int main(){
     prepara();
     graphtobeprinted();
-    printgraph();
-    //printedges();
-    printf("LL=%lf \nAUROC=%lf \nAUCPR=%lf\n",ll,auroc,aucpr);
+    //printgraph();
+    printedges();
+    //printf("LL=%lf \nAUROC=%lf \nAUCPR=%lf\n",ll,auroc,aucpr);
     return(0);
 }

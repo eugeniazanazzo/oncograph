@@ -3,9 +3,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-//TODO: 1)Evitare loop del tipo a->b->a (in sostanza devo scegliere uno dei due archi).
-//		2)Rendere il codice decente
-
 struct edge {
   char from[80];
   char to[80];
@@ -22,6 +19,7 @@ double auroc;
 double aucpr;
 double threshold=0.5; //elimino clausole con probabilità troppo bassa 
 double upperbound=0.995; //arrotondo archi ad 1
+char *name;
 
 void removeChar(char *str, char garbage) {
 
@@ -142,30 +140,19 @@ void graphtobeprinted(){
           edges[j].flag=1;
         }}}
       }}
-
-void printgraph (){
-  //printf("%d\n",numedges);
-  for (int i=0;i<numedges;i++){
-    if(edges[i].flag>-1){
-      if (edges[i].probability>0.995){
-      printf("\"%s\"->\"%s\" [style=bold,color=blue];\n",edges[i].from,edges[i].to);
-      } else if (edges[i].probability>threshold){
-      printf("\"%s\"->\"%s\" [label=\"%.2f\"];\n",edges[i].from,edges[i].to,edges[i].probability);
-}}
-}printf("}\n");}
 void printedges (){
   for (int i=0;i<numedges;i++){
     lower_string(edges[i].from);
     lower_string(edges[i].to);
     if(edges[i].flag>-1){
       if (edges[i].probability>0.995){
-      printf("edge(%s,%s,1).\n",edges[i].from,edges[i].to);
+      printf("edge(%s,%s,%s).\n",edges[i].from,edges[i].to,name);
       } else if (edges[i].probability>threshold){
-      printf("edge(%s,%s,%f).\n",edges[i].from,edges[i].to,edges[i].probability);
+      printf("edge(%s,%s,%s).\n",edges[i].from,edges[i].to,name);
 }}
 }
 }
-void prepara(){
+void prepara(FILE *fp){
 //char junk [10];
 char * clause;
 const char end []="\n";
@@ -175,14 +162,11 @@ size_t len;
 size_t read;
 char *token;
 const char separator []=",";
-printf("digraph oncograph{\n");
-printf("node [shape = box,fontname = \"Helvetica\"];\n");
-printf("rankdir=LR;\n");
 //scanf ("%s %s[^(]",junk,junk);
 clause = (char *)malloc(bufsize * sizeof(char));
 theend= strtok(clause, end);
 int j=0;
-while((read=getdelim(&clause,&len,')',stdin))!= -1){
+while((read=getdelim(&clause,&len,')',fp))!= -1){
 //printf("%s\n",junk);
 //printf(" clause %s\n",clause);
 //printf(" token %s\n",token);
@@ -195,11 +179,45 @@ while((read=getdelim(&clause,&len,')',stdin))!= -1){
 }
 free(clause);
 }
-int main(){
-    prepara();
-    graphtobeprinted();
-    printgraph();
-    //printedges();
-    printf("LL=%lf \nAUROC=%lf \nAUCPR=%lf\n",ll,auroc,aucpr);
-    return(0);
+void cleanedges(struct edge edges[]){
+	for (int i=0;i<numedges;i++){
+		strcpy(edges[i].from,"");
+		strcpy(edges[i].to,"");
+		edges[i].probability=0;
+		edges[i].flag=0;
+	}
+}
+
+int main( int argc, char *argv[] )  {
+
+   if( argc == 3 ) {
+      printf("The argument supplied are %s %s \n", argv[1],argv[2]);
+   }
+   else if( argc > 3 ) {
+      printf("Too many arguments supplied.\n");
+   }
+   else {
+      printf("Two argument expected.\n");
+   }
+   int i;
+   FILE *fp;
+    for ( i = 1; i < argc; i++ )
+    {
+        if ( (fp = fopen(argv[i], "r")) == NULL )
+        {
+            //fprintf( stderr, "%s: Gah! I could not open file named %s!\n", argv[0], argv[i] );
+            return 2;
+        }
+        //printf("%s",argv[i]);
+        name=argv[i];
+        prepara(fp);
+        graphtobeprinted();
+      	printedges();
+      	cleanedges(edges);
+      	numedges=0;
+        fclose( fp );
+        //printf("apertura file ok");
+    }
+
+   return(0);
 }

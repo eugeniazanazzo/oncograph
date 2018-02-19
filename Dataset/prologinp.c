@@ -20,7 +20,7 @@ struct edge edges[1000];
 double ll;
 double auroc;
 double aucpr;
-double threshold=0.1; //elimino clausole con probabilità troppo bassa 
+double threshold=0.5; //elimino clausole con probabilità troppo bassa 
 double upperbound=0.995; //arrotondo archi ad 1
 
 void removeChar(char *str, char garbage) {
@@ -125,9 +125,9 @@ void printgraph (){
     lower_string(edges[i].to);
     if(edges[i].flag>-1){
       if (edges[i].probability>0.995){
-      printf("edge(%s,%s,1).\n",edges[i].from,edges[i].to);
+      printf("edge(%s,%s,1).flag=%d\n",edges[i].from,edges[i].to,edges[i].flag);
       } else if (edges[i].probability>threshold){
-      printf("edge(%s,%s,%f).\n",edges[i].from,edges[i].to,edges[i].probability);
+      printf("edge(%s,%s,%f).flag=%d\n",edges[i].from,edges[i].to,edges[i].probability,edges[i].flag);
 }}
 }}
 void prepara(){

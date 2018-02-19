@@ -20,7 +20,7 @@ struct edge edges[1000];
 double ll;
 double auroc;
 double aucpr;
-double threshold=0.1; //elimino clausole con probabilità troppo bassa 
+double threshold=0.5; //elimino clausole con probabilità troppo bassa 
 double upperbound=0.99; //arrotondo archi ad 1
 
 void removeChar(char *str, char garbage) {
